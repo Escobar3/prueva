@@ -118,15 +118,13 @@ public class ProductoDAO implements IBaseDatos<Producto> {
         boolean result = false;
         Connection connection = Conexion.getConnection();
         String query
-                = "update Producto set cantidad where id_producto = ?";
+                = "update Producto set cantidad = ? where id_producto = ?";
         PreparedStatement preparedStmt = null;
         try {
             preparedStmt = connection.prepareStatement(query);
-            preparedStmt.setInt(1, t.getId_producto());
-            preparedStmt.setString(2, t.getNombre());
-            preparedStmt.setDouble(3, t.getPrecio());
-            preparedStmt.setInt(4, t.getCantidad());
-            preparedStmt.setInt(5, 1);
+            preparedStmt.setInt(1, t.getCantidad());
+            preparedStmt.setInt(2, t.getId_producto());       
+  
 
             if (preparedStmt.executeUpdate() > 0) {
                 result = true;

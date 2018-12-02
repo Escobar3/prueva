@@ -20,6 +20,18 @@
         <servlet-name>RegistroServlet</servlet-name>
         <servlet-class>Controlador.RegistroServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>Controlador.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportesServlet</servlet-name>
+        <servlet-class>Controlador.ReportesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VentasP</servlet-name>
+        <servlet-class>Controlador.VentasP</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Caja_Servlet</servlet-name>
         <url-pattern>/Caja_Servlet</url-pattern>
@@ -36,12 +48,24 @@
         <servlet-name>RegistroServlet</servlet-name>
         <url-pattern>/RegistroServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportesServlet</servlet-name>
+        <url-pattern>/ReportesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VentasP</servlet-name>
+        <url-pattern>/VentasP</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Caja_Servlet</welcome-file>
+        <welcome-file>LoginServlet</welcome-file>
     </welcome-file-list>
 </web-app>

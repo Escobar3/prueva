@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import DAO.*;
 import VO.*;
-
+import javax.servlet.annotation.WebServlet;
 import java.sql.SQLException;
 
 import java.util.List;
@@ -30,6 +30,7 @@ import org.json.simple.JSONArray;
  *
  * @author LUIS
  */
+@WebServlet(name = "Caja_Servlet", urlPatterns = {"/Caja_Servlet"})
 public class Caja_Servlet extends HttpServlet {
 
     ProductoDAO producto;
@@ -82,9 +83,12 @@ public class Caja_Servlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+             RequestDispatcher rq = request.getRequestDispatcher("Caja.jsp");
         try {
             listProdutos = producto.findAll();
         } catch (SQLException ex) {
@@ -94,7 +98,7 @@ public class Caja_Servlet extends HttpServlet {
         System.out.println("dsfsdgssdgsgsdgsdgsdgsgs");
         request.setAttribute("p2", listProdutos);
 
-        request.getRequestDispatcher("Caja.jsp").forward(request, response);
+        rq.forward(request, response);
         doPost(request, response);
     }
 
@@ -195,9 +199,6 @@ public class Caja_Servlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void registrar(Venta aux) {
-        ven = aux;
-    }
 
     ;
     

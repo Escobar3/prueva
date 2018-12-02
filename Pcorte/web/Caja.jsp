@@ -7,6 +7,8 @@
 <%@page import="VO.Producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -134,7 +136,7 @@
                             System.out.println(listp.size());
                             System.out.println("-----------------------");
                     %>
-                    <select id="productos">
+                    <select id="productos2">
                         <%
                             for (Producto p : listp) {%>
                         <option id="p" value="<%=p.getId_producto()%>"><%= p.getId_producto()%> </option>
@@ -147,6 +149,7 @@
 
 
                     </select> 
+                        <input id="productos"type="text"></p>
 
                 </p>
 

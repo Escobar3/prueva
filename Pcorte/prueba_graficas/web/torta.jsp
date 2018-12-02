@@ -18,6 +18,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        
          <%
         //diagrama de pastel
         //objeto de tipo grafico    

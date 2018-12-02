@@ -4,9 +4,18 @@
  * and open the template in the editor.
  */
 package Controlador;
+import DAO.CajaDAO;
 
+import DAO.ProductoDAO;
+
+import VO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +23,17 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author LUIS
+ * @author Luis
  */
-public class NewServlet1 extends HttpServlet {
+public class VentasP extends HttpServlet {
+ProductoDAO producto;
+Producto p ;
+List<Producto> inven = new ArrayList<>();
 
+    @Override
+    public void init() throws ServletException {
+        this.producto = new ProductoDAO();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -27,11 +43,7 @@ public class NewServlet1 extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-         request.getRequestDispatcher("Caja.jsp").forward(request, response);
-     
-    }
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -45,7 +57,7 @@ public class NewServlet1 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       
     }
 
     /**
@@ -59,7 +71,6 @@ public class NewServlet1 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

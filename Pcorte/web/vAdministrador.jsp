@@ -26,8 +26,11 @@
         </head>
         <body>
             <h1 style="text-align:center"> ADMINISTRADOR</h1>
-            <h1  style="text-align:center">  <button >DINERO EN CAJA </button> <button>REPORTES </button>  <button>CREAR CAJA </button>
-
+            <h1  style="text-align:center">  <button >DINERO EN CAJA </button> 
+                <a href = "Report.jsp"> 
+                    <button>REPORTES </button> 
+                </a> 
+                <button>CREAR CAJA </button>
                 <a href = "Inventario.jsp"> 
                     <button>INVENTARIO</button>
                 </a> 

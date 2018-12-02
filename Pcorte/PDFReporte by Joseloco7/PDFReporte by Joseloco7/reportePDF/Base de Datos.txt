@@ -1,0 +1,40 @@
++-------------------------
+¦ESPERO K T AYA SERVIDO, SALUDOS Y RECUERDA AGRADECER  
+¦NO CUESTA NADA, LES SIGUERE AYUDANDO...                                      
+¦                                                                                              
+¦                                                                  ATTE. joseloco7                            
+¦                                                                                              
++-------------------------
+
+
+create database tutorial;
+
+use tutorial;
+
+
+esta tabla es para mysql
+
+create table clientes(                 
+idcliente INTEGER  AUTO_INCREMENT,     
+Nombres varchar(50),                   
+Apellidos varchar(50),                 	
+Direccion varchar(100),                
+Correo varchar(50),                    
+  PRIMARY KEY (`idcliente`));	       
+
+
+  
+
+insert into clientes (idcliente,Nombres,Apellidos,Direccion,Correo)values
+(143535,'Juan','Rivera','Av. Las Americas #6789','juan@hotmail.com'),
+(234354,'Francisco','Ubaldo','Av. Junin #129','jose@gmail.com'),
+(454533,'GianFranco','Copelo','Av. Libertadores #135','gianf@hotmail.com'),
+(567766,'Pedro','Tafur','Calle Miradores S/N','pedro@yahoo.com'),
+(122343,'Jose','Arce','Av. Montenegro #543','jose@hotmail.com'),
+(234566,'Micaela','Rodtriguez','Calle Trujillo','mica@hotmail.com'),
+(787856,'Junior','Mendoza','Calle Tarapaca #454','junior@hotmail.com'),
+(165656,'Paola','Sanchez','Av.España 89','paolita@hotmail.com'),
+(183232,'Hugo','Fernandez','Av.Uruguay','hugo@hotmail.com'),
+(122353,'Maria','Perez','Calle La Mar','maria@hotmail.com')
+
+BY JOSELOCO7;

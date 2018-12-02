@@ -48,13 +48,10 @@
             function procesarOperacion(valOp, idcam, id) {
                 var datos;
                 if (valOp === 'GU') {
-                    datos = "txtValOpe=" + valOp + "&productos=" + $("#productos").val()
-                            + "&idCaja=" + $("#idCaja").val()
-                            + "&UserV=" + $("#UserV").val() + "&unds=" + $("#unds").val()
-                            + "&p=" + $("#p").val() + "&fecha=" + $("#fecha").val();
+                    datos = "txtValOpe=" + valOp;
 
                     $.ajax({
-                        url: "/Pcorte/Caja_Servlet",
+                        url: "/Pcorte/ReportServlet",
                         type: 'POST',
 
                         data: datos,
@@ -71,7 +68,7 @@
                                 destroy: true,
                                 empty: true,
                                 columns: [
-                                    {data: 'precio'},
+                                    {data: 'porcentage'},
                                     {data: 'id'},
                                     {data: 'cantidad'},
                                     {data: 'nombre'}
@@ -81,10 +78,10 @@
                     });
 
 
-                } else if (valOp === 'RE') {
+                } else if (valOp === 'VE') {
                     datos = "txtValOpe=" + valOp;
                     $.ajax({
-                        url: "/Pcorte/Caja_Servlet",
+                        url: "/Pcorte/ReportServlet",
                         type: 'POST',
 
                         data: datos,
@@ -92,7 +89,17 @@
                             console.log(data);
                         },
                         complete: function (data) {
-
+                            obj2 = JSON.parse(data["responseText"]);
+                            table = $('#TablaProductotos2').DataTable({
+                                data: obj2,
+                                destroy: true,
+                                empty: true,
+                                columns: [
+                                    {data: 'porcentage'},
+                                    {data: 'cantidad'},
+                                    {data: 'nombre'}
+                                ]
+                            });
 
 
                         }
@@ -108,7 +115,7 @@
                     destroy: true,
                     empty: true,
                     columns: [
-                        {data: 'precio'},
+                        {data: 'porcentage'},
                         {data: 'id'},
                         {data: 'cantidad'},
                         {data: 'nombre'}
@@ -122,8 +129,7 @@
                     destroy: true,
                     empty: true,
                     columns: [
-                        {data: 'precio'},
-                        {data: 'id'},
+                        {data: 'porcentage'},
                         {data: 'cantidad'},
                         {data: 'nombre'}
                     ]
@@ -134,36 +140,29 @@
 
 
         </script>
-        <h1>Hello World!</h1>
+        <h1>Report!</h1>
 
-
+        <table id="TablaProductotos" class="display"></table>
+        <button id="registrar" onclick="procesarOperacion('GU', 'txtValOpe')">VentasP</button>
+        <br>
+        <br>
         <form action="ReportServlet" method="GET">  
-            <table>
-                <tbody>
-                    <tr>
-                        <th>
-                            <table id="TablaProductotos" class="display"></table>
-                            <button id="registrar" onclick="procesarOperacion('GU', 'txtValOpe')">VentasP</button>
-                            <button type="submit" name="Boton1" class="btn btn-default"> <b>Login</b> </button>          
-
-
-                        </th>
-                        <th>
-
-                        </th>
-                        <th> 
-                            
-                            <table id="TablaProductotos2" class="display"></table>
-                            <button id="registrar" onclick="procesarOperacion('GU', 'txtValOpe')">Vendedores</button>
-                            <button type="submit" name="Boton2" class="btn btn-default"> <b>Login</b> </button>
-
-                    </tr>
-
-                </tbody>
-            </table>
-
+            <button type="submit" name="Boton1" class="btn btn-default"> <b>Grafico</b> </button>                              
 
         </form>
+        <br>
+        <table id="TablaProductotos2" class="display"></table>
+        <button id="registrar" onclick="procesarOperacion('VE', 'txtValOpe')">Vendedores</button>
+        <form action="ReportServlet" method="GET">  
+
+            <button type="submit" name="Boton2" class="btn btn-default"> <b>Grafico</b> </button>  
+        </form>
+        <br>
+        <br>
+        <a href = "vAdministrador.jsp"> 
+            <button>salir</button> 
+        </a> 
+
         <form action="ReportServlet" method="GET">
 
             <%
@@ -208,7 +207,7 @@
                     }
 
                     //--------------------------------------------titulo de la grafica,titulo abajo,titulo izquierda, datos,orientacion,decoraciones activas
-                    JFreeChart grafico1 = ChartFactory.createBarChart("ingresos año 2018", "meses", "promedio", data1, PlotOrientation.VERTICAL, true, true, true);
+                    JFreeChart grafico1 = ChartFactory.createBarChart("Vebdedores", "vendedores", "Ventas", data1, PlotOrientation.VERTICAL, true, true, true);
                     //donde se visualizara la grafica
                     response.setContentType("image/JPEG");
                     //la salida de la grafica
@@ -220,5 +219,7 @@
                 }
             %>
         </form>
+
+
     </body>
 </html>

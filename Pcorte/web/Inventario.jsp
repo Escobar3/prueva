@@ -31,7 +31,7 @@
                             + "&precio=" + $("#precio").val() + "&cantidad=" + $("#cantidad").val();
 
                 } else if (valOp = 'MU') {
-                    datos = "txtValOpe=" + valOp ;
+                    datos = "txtValOpe=" + valOp;
                     $.ajax({
                         url: "/Pcorte/InventarioServlet2",
                         type: 'POST',
@@ -41,11 +41,10 @@
                             console.log(data);
                         },
                         complete: function (data) {
-                            if (data["responseText"] !="nul") {
-                                 console.log(data["responseText"]),
-                                obj = JSON.parse(data["responseText"]),
-
-                                table = $('#TablaProductotos').DataTable({
+                            if (data["responseText"] != "nul") {
+                                console.log(data["responseText"]),
+                                        obj = JSON.parse(data["responseText"]),
+                                        table = $('#TablaProductotos').DataTable({
                                     data: obj,
                                     destroy: true,
                                     empty: true,
@@ -139,7 +138,11 @@
         <tr>
             <th style="text-align:center">   <button id="registrar" onclick="procesarOperacion('GU', 'txtValOpe')">Registrar</button>
                 <button id="mostrar" onclick="procesarOperacion('MU', 'txtValOpe')">  mostrar </button> 
-                <button> salir </button> </th>
+
+
+                <a href = "vAdministrador.jsp"> 
+                    <button>salir</button> 
+                </a>
         </tr>
     </tbody>
 </table>

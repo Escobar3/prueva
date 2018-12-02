@@ -149,7 +149,7 @@
 
 
                     </select> 
-                        <input id="productos"type="text"></p>
+                    <input id="productos"type="text"></p>
 
                 </p>
 
@@ -203,13 +203,18 @@
                 <p>total: <input name="tipo_de_dato" type="text"></p>
             </th>
             <th> <button id="facturar" onclick="procesarOperacion('RE', 'txtValOpe')" > <b>Facturar</b> </button> </th >
-                        <th> <button> <b>Cancelar</b> </button> </th>
-                        <th> <button> <b>Salir</b> </button> </th>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-            <div id ="dialogM" tilt                         ="inform                                 acion" />
+            <th>                 <a href = "Caja.jsp"> 
+                    <button> <b>Cancelar</b> </button>
+                </a>
+            </th>
+            <th> <a href = "login.jsp"> 
+                    <button>salir</button> 
+                </a> </th>
+        </tr>
+
+    </tbody>
+</table>
+<div id ="dialogM" tilt                         ="inform                                 acion" />
 
 
 

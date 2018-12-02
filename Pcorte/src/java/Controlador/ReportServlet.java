@@ -20,6 +20,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -79,7 +81,6 @@ public class ReportServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-     
 
             request.setAttribute("lista2", listVendedor);
         }
@@ -98,14 +99,105 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String txtValop = request.getParameter("txtValOpe");
+ JSONArray varJsonArrayP = new JSONArray();
+ JSONArray varJsonArrayV= new JSONArray();
+        PrintWriter escritor = response.getWriter();
+        if (txtValop != null) {
 
+            if (txtValop.equalsIgnoreCase("GU")) {
+               
+                try {
+                    listProdutos = producto.ConsulP_item();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JSONArray varJObjectLista = metGetListaP(listProdutos, varJsonArrayP);
+                escritor.print(varJObjectLista);
+
+            } else if (txtValop.equalsIgnoreCase("VE")) {
+                
+                try {
+
+                    listVendedor = vendedor.ConsulVe_vent();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JSONArray varJObjectLista2 = metGetListaV(listVendedor, varJsonArrayV);
+                escritor.print(varJObjectLista2);
+            }
+        }
     }
 
     /**
      * Returns a short description of the servlet.
      *
+     * @param in
+     * @param varJsonArrayP
      * @return a String containing servlet description
      */
+    public JSONArray metGetListaV(List<Vendedor> in, JSONArray varJsonArrayV) {
+
+        JSONObject varJsonObjectResultado = new JSONObject();
+        try {
+            for (int i = 0; i < in.size(); i++) {
+                JSONObject varJsonObjectP = new JSONObject();
+
+                System.out.println("------------------------");
+                Vendedor p = in.get(i);
+                varJsonObjectP.put("nombre", p.getNombre());
+                varJsonObjectP.put("cantidad", p.getProductos_vend());
+                varJsonObjectP.put("porcentage", p.getPorcentaje());
+
+                varJsonArrayV.add(varJsonObjectP);
+                varJsonObjectP = (JSONObject) varJsonArrayV.get(i);
+                System.out.println("-------------------");
+                System.out.println(varJsonObjectP.toJSONString());
+                System.out.println("-----------------------------");
+                System.out.println(varJsonArrayV.get(i));
+
+            }
+            varJsonObjectResultado.put("Result", "OK");
+            varJsonObjectResultado.put("Records", varJsonArrayV);
+        } catch (Exception e) {
+            e.printStackTrace();
+            varJsonObjectResultado.put("Result", "ERROR");
+            varJsonObjectResultado.put("Message", e.getMessage());
+        }
+        return varJsonArrayV;
+    }
+
+    public JSONArray metGetListaP(List<Producto> in, JSONArray varJsonArrayP) {
+
+        JSONObject varJsonObjectResultado = new JSONObject();
+        try {
+            for (int i = 0; i < in.size(); i++) {
+                JSONObject varJsonObjectP = new JSONObject();
+
+                System.out.println("------------------------");
+                Producto p = in.get(i);
+                varJsonObjectP.put("id", p.getId_producto());
+                varJsonObjectP.put("nombre", p.getNombre());
+                varJsonObjectP.put("cantidad", p.getCantidad());
+                varJsonObjectP.put("porcentage", p.getPorcentaje());
+                varJsonArrayP.add(varJsonObjectP);
+                varJsonObjectP = (JSONObject) varJsonArrayP.get(i);
+                System.out.println("-------------------");
+                System.out.println(varJsonObjectP.toJSONString());
+                System.out.println("-----------------------------");
+                System.out.println(varJsonArrayP.get(i));
+
+            }
+            varJsonObjectResultado.put("Result", "OK");
+            varJsonObjectResultado.put("Records", varJsonArrayP);
+        } catch (Exception e) {
+            e.printStackTrace();
+            varJsonObjectResultado.put("Result", "ERROR");
+            varJsonObjectResultado.put("Message", e.getMessage());
+        }
+        return varJsonArrayP;
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";

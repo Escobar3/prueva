@@ -32,6 +32,14 @@
         <servlet-name>VentasP</servlet-name>
         <servlet-class>Controlador.VentasP</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReportServlet</servlet-name>
+        <servlet-class>Controlador.ReportServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>REPServlet</servlet-name>
+        <servlet-class>Controlador.REPServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Caja_Servlet</servlet-name>
         <url-pattern>/Caja_Servlet</url-pattern>
@@ -59,6 +67,14 @@
     <servlet-mapping>
         <servlet-name>VentasP</servlet-name>
         <url-pattern>/VentasP</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportServlet</servlet-name>
+        <url-pattern>/ReportServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>REPServlet</servlet-name>
+        <url-pattern>/REPServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

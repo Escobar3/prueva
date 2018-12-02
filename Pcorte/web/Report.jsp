@@ -4,6 +4,26 @@
     Author     : Luis
 --%>
 
+<%@page import="VO.Vendedor"%>
+<%@page import="java.util.List"%>
+<%@page import="VO.Producto"%>
+<%@page import="java.io.*"%>
+<%@page import="org.jfree.chart.*"%>
+<%@page import="org.jfree.chart.plot.*"%>
+<%@page import="org.jfree.data.general.*"%>
+<%@page import="org.jfree.data.category.*"%>
+<%@page import="org.jfree.chart.ChartFactory"%>
+<%@page import="org.jfree.data.category.DefaultCategoryDataset"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="org.jfree.chart.*"%>
+<%@page import="org.jfree.chart.plot.*"%>
+<%@page import="org.jfree.data.general.*"%>
+<%@page import="org.jfree.data.category.*"%>
+<%@page import="java.io.*"%>
+<%@page import="org.jfree.chart.*"%>
+<%@page import="org.jfree.chart.plot.*"%>
+<%@page import="org.jfree.data.general.*"%>
+<%@page import="org.jfree.data.category.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,6 +43,182 @@
         <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     </head>
     <body>
+        <script >
+            var data1;
+            function procesarOperacion(valOp, idcam, id) {
+                var datos;
+                if (valOp === 'GU') {
+                    datos = "txtValOpe=" + valOp + "&productos=" + $("#productos").val()
+                            + "&idCaja=" + $("#idCaja").val()
+                            + "&UserV=" + $("#UserV").val() + "&unds=" + $("#unds").val()
+                            + "&p=" + $("#p").val() + "&fecha=" + $("#fecha").val();
+
+                    $.ajax({
+                        url: "/Pcorte/Caja_Servlet",
+                        type: 'POST',
+
+                        data: datos,
+                        succes: function (data) {
+                            console.log(data);
+                        },
+                        complete: function (data) {
+
+
+                            obj = JSON.parse(data["responseText"]);
+
+                            table = $('#TablaProductotos').DataTable({
+                                data: obj,
+                                destroy: true,
+                                empty: true,
+                                columns: [
+                                    {data: 'precio'},
+                                    {data: 'id'},
+                                    {data: 'cantidad'},
+                                    {data: 'nombre'}
+                                ]
+                            });
+                        }
+                    });
+
+
+                } else if (valOp === 'RE') {
+                    datos = "txtValOpe=" + valOp;
+                    $.ajax({
+                        url: "/Pcorte/Caja_Servlet",
+                        type: 'POST',
+
+                        data: datos,
+                        succes: function (data) {
+                            console.log(data);
+                        },
+                        complete: function (data) {
+
+
+
+                        }
+                    });
+                }
+
+            }
+
+            $(document).ready(function () {
+
+                table = $('#TablaProductotos').DataTable({
+                    data: '',
+                    destroy: true,
+                    empty: true,
+                    columns: [
+                        {data: 'precio'},
+                        {data: 'id'},
+                        {data: 'cantidad'},
+                        {data: 'nombre'}
+                    ]
+                });
+            });
+            $(document).ready(function () {
+
+                table = $('#TablaProductotos2').DataTable({
+                    data: '',
+                    destroy: true,
+                    empty: true,
+                    columns: [
+                        {data: 'precio'},
+                        {data: 'id'},
+                        {data: 'cantidad'},
+                        {data: 'nombre'}
+                    ]
+                });
+            });
+
+
+
+
+        </script>
         <h1>Hello World!</h1>
+
+
+        <form action="ReportServlet" method="GET">  
+            <table>
+                <tbody>
+                    <tr>
+                        <th>
+                            <table id="TablaProductotos" class="display"></table>
+                            <button id="registrar" onclick="procesarOperacion('GU', 'txtValOpe')">VentasP</button>
+                            <button type="submit" name="Boton1" class="btn btn-default"> <b>Login</b> </button>          
+
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th> 
+                            
+                            <table id="TablaProductotos2" class="display"></table>
+                            <button id="registrar" onclick="procesarOperacion('GU', 'txtValOpe')">Vendedores</button>
+                            <button type="submit" name="Boton2" class="btn btn-default"> <b>Login</b> </button>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+        </form>
+        <form action="ReportServlet" method="GET">
+
+            <%
+                System.out.println("fdffffffffffffff");
+                if (request.getAttribute("lista") != null) {
+                    System.out.println("-dd");
+                    List<Producto> listp = (List<Producto>) request.getAttribute("lista");
+                    System.out.println(listp.size());
+                    System.out.println("-----------------------");
+
+                    DefaultPieDataset data = new DefaultPieDataset();
+                    //cargamos los datos
+                    //-------------titulo,valor-----------//
+                    for (int i = 0; i < listp.size(); i++) {
+                        System.out.println("safgvhdbvddasfgv");
+                        System.out.println("");
+                        data.setValue(listp.get(i).getNombre(), listp.get(i).getPorcentaje());
+                    }
+                    System.out.println("dasdasdasdasdasd");
+                    //objeto donde estara el grafico
+                    //--------------------------------------------titulo de la grafica,datos,decoraciones activas
+                    JFreeChart grafico = ChartFactory.createPieChart("ingresos año 2018", data, true, true, true);
+                    System.out.println("+++++++++++");
+                    //donde se visualizara la grafica
+                    response.setContentType("image/JPEG");
+
+                    //la salida de la grafica
+                    OutputStream sa = response.getOutputStream();
+                    //impresion
+                    System.out.println("´{lpkoasfg");
+                    //---------------------------salida,grafico,tamaños
+                    ChartUtilities.writeChartAsPNG(sa, grafico, 350, 350);
+                    System.out.println("fsdghb");
+                } else if (request.getAttribute("lista2") != null) {
+                    List<Vendedor> listp2 = (List<Vendedor>) request.getAttribute("lista2");
+                    DefaultCategoryDataset data1 = new DefaultCategoryDataset();
+                    for (int i = 0; i < listp2.size(); i++) {
+                        System.out.println("safgvhdbvddasfgv");
+                        System.out.println("");
+
+                        data1.setValue(listp2.get(i).getProductos_vend(), "ventas", listp2.get(i).getNombre());
+                    }
+
+                    //--------------------------------------------titulo de la grafica,titulo abajo,titulo izquierda, datos,orientacion,decoraciones activas
+                    JFreeChart grafico1 = ChartFactory.createBarChart("ingresos año 2018", "meses", "promedio", data1, PlotOrientation.VERTICAL, true, true, true);
+                    //donde se visualizara la grafica
+                    response.setContentType("image/JPEG");
+                    //la salida de la grafica
+                    OutputStream sa1 = response.getOutputStream();
+                    //impresion
+                    //---------------------------salida,grafico,tamaños
+                    ChartUtilities.writeChartAsPNG(sa1, grafico1, 350, 350);
+
+                }
+            %>
+        </form>
     </body>
 </html>

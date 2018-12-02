@@ -53,6 +53,7 @@ public class ProductoDAO implements IBaseDatos<Producto> {
         List<Producto> productos = null;
         String query = "Select * from Producto ";
         Connection connection = Conexion.getConnection();
+        System.out.println("asdfsdgsgsdgsgdcdgdgv");
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);

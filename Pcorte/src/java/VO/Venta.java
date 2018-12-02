@@ -20,26 +20,27 @@ public class Venta {
     private Cliente cliente;
     private Vendedor vendedor;
     private Caja caja;
-    private LocalDate data;
+    private String data;
 
-    public Venta(int id_venta, double valor, List<Item_vent> item_vents, Cliente cliente, Vendedor vendedor, Caja caja, LocalDate data) {
-        this.id_venta = id_venta;
-        this.valor = valor;
-        this.item_vents = item_vents;
-        this.cliente = cliente;
-        this.vendedor = vendedor;
-        this.caja = caja;
-        this.data = data;
+    public List<Item_vent> getItem_vents() {
+        return item_vents;
     }
 
-    public LocalDate getData() {
+    public void setItem_vents(List<Item_vent> item_vents) {
+        this.item_vents = item_vents;
+    }
+
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
+   
+
+    
     public Caja getCaja() {
         return caja;
     }

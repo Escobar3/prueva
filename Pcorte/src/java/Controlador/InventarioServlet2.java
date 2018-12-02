@@ -16,9 +16,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import DAO.*;
 import VO.*;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+
 import java.sql.SQLException;
-import static java.time.temporal.TemporalQueries.localDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;

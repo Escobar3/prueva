@@ -30,12 +30,41 @@
             function procesarOperacion(valOp, idcam, id) {
                 var datos;
                 if (valOp == 'GU') {
-                    console.log(valOp);
                     datos = "txtValOpe=" + valOp + "&productos=" + $("#productos").val()
                             + "&idCaja=" + $("#idCaja").val()
                             + "&UserV=" + $("#UserV").val() + "&unds=" + $("#unds").val()
                             + "&p=" + $("#p").val() + "&fecha=" + $("#fecha").val();
-                }
+
+                    $.ajax({
+                        url: "/Pcorte/Caja_Servlet",
+                        type: 'POST',
+
+                        data: datos,
+                        succes: function (data) {
+                            console.log(data);
+                        },
+                        complete: function (data) {
+
+
+                            obj = JSON.parse(data["responseText"]);
+
+                            table = $('#TablaProductotos').DataTable({
+                                data: obj,
+                                destroy: true,
+                                empty: true,
+                                columns: [
+                                    {data: 'precio'},
+                                    {data: 'id'},
+                                    {data: 'cantidad'},
+                                    {data: 'nombre'}
+                                ]
+                            });
+                        }
+                    });
+
+
+                } else if(valOp=='RE')
+                    datos = "txtValOpe=" + valOp ;
                 $.ajax({
                     url: "/Pcorte/Caja_Servlet",
                     type: 'POST',
@@ -46,8 +75,8 @@
                     },
                     complete: function (data) {
 
-                        console.log(data["responseText"]),
-                                obj = JSON.parse(data["responseText"]);
+
+                        obj = JSON.parse(data["responseText"]);
 
                         table = $('#TablaProductotos').DataTable({
                             data: obj,
@@ -106,9 +135,6 @@
                     </th>
                     <th>
             <from action ="Caja_Servlet" method ="GET">
-
-
-
                 <p>id producto: 
                     <%
                         System.out.println("fsdfsdfsdfsd");
@@ -183,7 +209,7 @@
             <th>
                 <p>total: <input name="tipo_de_dato" type="text"></p>
             </th>
-            <th> <button> <b>Facturar</b> </button> </th>
+            <th> <button id="facturar" onclick="procesarOperacion('RE', 'txtValOpe')> <b>Facturar</b> </button> </th>
             <th> <button> <b>Cancelar</b> </button> </th>
             <th> <button> <b>Salir</b> </button> </th>
         </tr>

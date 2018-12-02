@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import DAO.*;
 import VO.*;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+
 import java.sql.SQLException;
-import static java.time.temporal.TemporalQueries.localDate;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,7 +78,8 @@ public class Caja_Servlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        System.out.println(listProdutos.size());
+        System.out.println("dsfsdgssdgsgsdgsdgsdgsgs");
         request.setAttribute("p2", listProdutos);
 
         request.getRequestDispatcher("Caja.jsp").forward(request, response);
@@ -102,8 +103,11 @@ public class Caja_Servlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter escritor = response.getWriter();
         String idP = request.getParameter("productos");
+
         String idC = request.getParameter("idCaja");
+
         String UserV = request.getParameter("UserV");
+
         String p = request.getParameter("p");
         String f = request.getParameter("fecha");
         String can = request.getParameter("unds");
@@ -118,17 +122,29 @@ public class Caja_Servlet extends HttpServlet {
                 System.out.println(idC);
                 System.out.println(Integer.parseInt(idC));
                 Caja aux = caja.find(Integer.parseInt(idC));
+
                 Vendedor vend = vendedor.find(UserV);
-                Producto p1 = producto.find(Integer.parseInt(idP));
-                double pre = aux.calP(p1.getPrecio(), unds);
-                p1.setCantidad(unds);
-                p1.setPrecio(pre);
-                itemDeVenda.setProducto(p1);
-                itemDeVenda.setCantidad(p1.getCantidad());
-                itemDeVenda.setValor(pre);
-                inven.add(p1);
-                JSONArray  varJObjectLista = metGetLista(inven, varJsonArrayP);
-                escritor.print(varJObjectLista);
+                if (aux != null && vend != null) {
+                    ven = venta.buscarUltimaVenda();
+                    Producto p1 = producto.find(Integer.parseInt(idP));
+                    double pre = aux.calP(p1.getPrecio(), unds);
+                    p1.setCantidad(unds);
+                    p1.setPrecio(pre);
+                    itemDeVenda.setProducto(p1);
+                    itemDeVenda.setCantidad(p1.getCantidad());
+                    itemDeVenda.setValor(pre);
+                    System.out.println(vend.getApellido());
+
+                    ven.setVendedor(vend);
+
+                    ven.setCaja(aux);
+                    ven.setValor(ven.getValor() + itemDeVenda.getValor());
+                    inven.add(p1);
+                    System.out.println("enviando");
+                    JSONArray varJObjectLista = metGetLista(inven, varJsonArrayP);
+                    escritor.print(varJObjectLista);
+             
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -148,11 +164,11 @@ public class Caja_Servlet extends HttpServlet {
     }// </editor-fold>
 
     public JSONArray metGetLista(List<Producto> in, JSONArray varJsonArrayP) {
-       
+
         JSONObject varJsonObjectResultado = new JSONObject();
         try {
             for (int i = 0; i < in.size(); i++) {
-                 JSONObject varJsonObjectP = new JSONObject();
+                JSONObject varJsonObjectP = new JSONObject();
 
                 System.out.println("------------------------");
                 Producto p = in.get(i);
@@ -161,12 +177,12 @@ public class Caja_Servlet extends HttpServlet {
                 varJsonObjectP.put("cantidad", p.getCantidad());
                 varJsonObjectP.put("precio", p.getPrecio());
                 varJsonArrayP.add(varJsonObjectP);
-                varJsonObjectP =( JSONObject) varJsonArrayP.get(i);
+                varJsonObjectP = (JSONObject) varJsonArrayP.get(i);
                 System.out.println("-------------------");
-                System.out.println( varJsonObjectP.toJSONString());
+                System.out.println(varJsonObjectP.toJSONString());
                 System.out.println("-----------------------------");
-                    System.out.println(varJsonArrayP.get(i));
-               
+                System.out.println(varJsonArrayP.get(i));
+
             }
             varJsonObjectResultado.put("Result", "OK");
             varJsonObjectResultado.put("Records", varJsonArrayP);
@@ -177,4 +193,5 @@ public class Caja_Servlet extends HttpServlet {
         }
         return varJsonArrayP;
     }
+
 }

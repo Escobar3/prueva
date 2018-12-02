@@ -39,7 +39,7 @@ public class VentaDAO implements IBaseDatos<Venta> {
             double valor = 0.0;
             int id_vend = 0;
             int id_c = 0;
-            LocalDate dato = null;
+            String dato = null;
 
             if (rs.next()) {
                 resultado = new Venta();
@@ -49,7 +49,7 @@ public class VentaDAO implements IBaseDatos<Venta> {
                 resultado.setValor(valor);
                 id_vend = rs.getInt("id_vendedor");
                 id_c = rs.getInt("id_caja");
-                dato = rs.getDate("dato").toLocalDate();
+                dato = rs.getString("dato");
                 vendedor.setId_vendedor(id_vend);
                 caja.setId_caja(id_c);
                 resultado.setData(dato);
@@ -79,7 +79,7 @@ public class VentaDAO implements IBaseDatos<Venta> {
             double valor = 0.0;
             int id_vend = 0;
             int id_c = 0;
-            LocalDate dato = null;
+            String dato = null;
             while (rs.next()) {
                 if (ventas == null) {
                     ventas = new ArrayList<Venta>();
@@ -93,7 +93,7 @@ public class VentaDAO implements IBaseDatos<Venta> {
                 registro.setValor(valor);
                 id_vend = rs.getInt("id_vendedor");
                 id_c = rs.getInt("id_caja");
-                dato = rs.getDate("dato").toLocalDate();
+                dato = rs.getString("dato");
                 vendedor.setId_vendedor(id_vend);
                 caja.setId_caja(id_c);
                 registro.setData(dato);

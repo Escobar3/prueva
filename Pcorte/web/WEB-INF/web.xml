@@ -8,7 +8,6 @@
         <servlet-name>NewServlet1</servlet-name>
         <servlet-class>Controlador.NewServlet1</servlet-class>
     </servlet>
-   
     <servlet>
         <servlet-name>InventarioServlet2</servlet-name>
         <servlet-class>Controlador.InventarioServlet2</servlet-class>
@@ -16,6 +15,10 @@
             <param-name>Name</param-name>
             <param-value>Value</param-value>
         </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistroServlet</servlet-name>
+        <servlet-class>Controlador.RegistroServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Caja_Servlet</servlet-name>
@@ -28,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>InventarioServlet2</servlet-name>
         <url-pattern>/InventarioServlet2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistroServlet</servlet-name>
+        <url-pattern>/RegistroServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -89,12 +89,6 @@ public class Venta {
         this.vendedor = vendedor;
     }
 
-    public List<Item_vent> getItemvents_() {
-        return item_vents;
-    }
-
-    public void setItemvents(List<Item_vent> item_vents) {
-        this.item_vents = item_vents;
-    }
+   
 
 }

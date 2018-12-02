@@ -29,7 +29,7 @@
             var data1;
             function procesarOperacion(valOp, idcam, id) {
                 var datos;
-                if (valOp == 'GU') {
+                if (valOp === 'GU') {
                     datos = "txtValOpe=" + valOp + "&productos=" + $("#productos").val()
                             + "&idCaja=" + $("#idCaja").val()
                             + "&UserV=" + $("#UserV").val() + "&unds=" + $("#unds").val()
@@ -63,34 +63,24 @@
                     });
 
 
-                } else if(valOp=='RE')
-                    datos = "txtValOpe=" + valOp ;
-                $.ajax({
-                    url: "/Pcorte/Caja_Servlet",
-                    type: 'POST',
+                } else if (valOp === 'RE') {
+                    datos = "txtValOpe=" + valOp;
+                    $.ajax({
+                        url: "/Pcorte/Caja_Servlet",
+                        type: 'POST',
 
-                    data: datos,
-                    succes: function (data) {
-                        console.log(data);
-                    },
-                    complete: function (data) {
+                        data: datos,
+                        succes: function (data) {
+                            console.log(data);
+                        },
+                        complete: function (data) {
 
 
-                        obj = JSON.parse(data["responseText"]);
 
-                        table = $('#TablaProductotos').DataTable({
-                            data: obj,
-                            destroy: true,
-                            empty: true,
-                            columns: [
-                                {data: 'precio'},
-                                {data: 'id'},
-                                {data: 'cantidad'},
-                                {data: 'nombre'}
-                            ]
-                        });
-                    }
-                });
+                        }
+                    });
+                }
+
             }
 
             $(document).ready(function () {
@@ -209,14 +199,14 @@
             <th>
                 <p>total: <input name="tipo_de_dato" type="text"></p>
             </th>
-            <th> <button id="facturar" onclick="procesarOperacion('RE', 'txtValOpe')> <b>Facturar</b> </button> </th>
-            <th> <button> <b>Cancelar</b> </button> </th>
-            <th> <button> <b>Salir</b> </button> </th>
-        </tr>
-
-    </tbody>
-</table>
-<div id ="dialogM" tilt="informacion" />
+            <th> <button id="facturar" onclick="procesarOperacion('RE', 'txtValOpe')" > <b>Facturar</b> </button> </th >
+                        <th> <button> <b>Cancelar</b> </button> </th>
+                        <th> <button> <b>Salir</b> </button> </th>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            <div id ="dialogM" tilt                         ="inform                                 acion" />
 
 
 

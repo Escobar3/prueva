@@ -40,6 +40,7 @@ public class Caja_Servlet extends HttpServlet {
     private Venta ven;
     private List<Producto> listProdutos;
     List<Producto> inven = new ArrayList<>();
+    List<Item_vent> items = new ArrayList<>();
 
     @Override
     public void init() throws ServletException {
@@ -48,8 +49,22 @@ public class Caja_Servlet extends HttpServlet {
         this.vendedor = new VendedorDAO();
         this.caja = new CajaDAO();
         this.item = new Item_ventDAO();
+        this.ven = new Venta();
+      
+        try {
+            venta.insert(new Venta());
+        } catch (SQLException ex) {
+            Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+        }
 
-    }
+        /*try {
+            venta.insert(new Venta());
+        } catch (SQLException ex) {
+            Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -103,47 +118,57 @@ public class Caja_Servlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter escritor = response.getWriter();
         String idP = request.getParameter("productos");
-
         String idC = request.getParameter("idCaja");
-
         String UserV = request.getParameter("UserV");
-
         String p = request.getParameter("p");
         String f = request.getParameter("fecha");
         String can = request.getParameter("unds");
         System.out.println(can);
+        System.out.println(txtValop);
+
         if (txtValop != null) {
             try {
 
-                int unds = Integer.parseInt(can);
+                if (txtValop.equalsIgnoreCase("GU")) {
+                    int unds = Integer.parseInt(can);
 
-                Item_vent itemDeVenda = new Item_vent();
-                System.out.println(idP);
-                System.out.println(idC);
-                System.out.println(Integer.parseInt(idC));
-                Caja aux = caja.find(Integer.parseInt(idC));
+                    Item_vent itemDeVenda = new Item_vent();
+                    System.out.println(idP);
+                    System.out.println(idC);
+                    System.out.println(Integer.parseInt(idC));
+                    Caja aux = caja.find(Integer.parseInt(idC));
 
-                Vendedor vend = vendedor.find(UserV);
-                if (aux != null && vend != null) {
-                    ven = venta.buscarUltimaVenda();
-                    Producto p1 = producto.find(Integer.parseInt(idP));
-                    double pre = aux.calP(p1.getPrecio(), unds);
-                    p1.setCantidad(unds);
-                    p1.setPrecio(pre);
-                    itemDeVenda.setProducto(p1);
-                    itemDeVenda.setCantidad(p1.getCantidad());
-                    itemDeVenda.setValor(pre);
-                    System.out.println(vend.getApellido());
+                    Vendedor vend = vendedor.find(UserV);
+                    if (aux != null && vend != null) {
+                        /* ven = venta.buscarUltimaVenda();*/
+                        Producto p1 = producto.find(Integer.parseInt(idP));
+                        double pre = aux.calP(p1.getPrecio(), unds);
+                        p1.setCantidad(unds);
+                        p1.setPrecio(pre);
+                        itemDeVenda.setProducto(p1);
+                        itemDeVenda.setCantidad(p1.getCantidad());
+                        itemDeVenda.setValor(pre);
+                        System.out.println(vend.getApellido());
+                        ven.setVendedor(vend);
+                        ven.setCaja(aux);
+                        ven.setValor(ven.getValor() + itemDeVenda.getValor());
+                        items.add(itemDeVenda);
+                        ven.setItem_vents(items);
+                        inven.add(p1);
+                        System.out.println(ven.getItem_vents().size());
+                        System.out.println("enviando");
+                        JSONArray varJObjectLista = metGetLista(inven, varJsonArrayP);
+                        escritor.print(varJObjectLista);
 
-                    ven.setVendedor(vend);
+                    }
+                } else if (txtValop.equalsIgnoreCase("RE")) {
+                    ven.setData(f);
+                    System.out.println(ven.getValor());
+                    for (int x = 0; x < ven.getItem_vents().size(); x++) {
+                        System.out.println(ven.getItem_vents().get(x).getId_item());
 
-                    ven.setCaja(aux);
-                    ven.setValor(ven.getValor() + itemDeVenda.getValor());
-                    inven.add(p1);
-                    System.out.println("enviando");
-                    JSONArray varJObjectLista = metGetLista(inven, varJsonArrayP);
-                    escritor.print(varJObjectLista);
-             
+                    }
+
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);

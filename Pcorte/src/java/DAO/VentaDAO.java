@@ -131,7 +131,7 @@ public class VentaDAO implements IBaseDatos<Venta> {
                 preparedStmt.setDouble(1, t.getValor());
                 preparedStmt.setInt(2, t.getVendedor().getId_vendedor());
                 preparedStmt.setInt(3, t.getCaja().getId_caja());
-                preparedStmt.setDate(4, Date.valueOf(t.getData()));
+                preparedStmt.setString(4,t.getData());
             } else {
 
                 query = " insert into ventas (dato) values (?)";
@@ -177,7 +177,7 @@ public class VentaDAO implements IBaseDatos<Venta> {
             preparedStmt.setDouble(1, t.getValor());
             preparedStmt.setInt(2, t.getVendedor().getId_vendedor());
             preparedStmt.setInt(3, t.getCaja().getId_caja());
-            preparedStmt.setDate(4, Date.valueOf(t.getData()));
+            preparedStmt.setString(4,t.getData());
             preparedStmt.setInt(5, t.getId_venta());
 
             if (preparedStmt.executeUpdate() > 0) {

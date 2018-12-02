@@ -50,22 +50,19 @@ public class Caja_Servlet extends HttpServlet {
         this.caja = new CajaDAO();
         this.item = new Item_ventDAO();
         this.ven = new Venta();
-      
+        ven = new Venta();
         try {
             venta.insert(new Venta());
         } catch (SQLException ex) {
             Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
-        }
+    }
 
-        /*try {
+    /*try {
             venta.insert(new Venta());
         } catch (SQLException ex) {
             Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-    
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -124,7 +121,7 @@ public class Caja_Servlet extends HttpServlet {
         String f = request.getParameter("fecha");
         String can = request.getParameter("unds");
         System.out.println(can);
-        System.out.println(txtValop);
+        System.out.println(f);
 
         if (txtValop != null) {
             try {
@@ -140,15 +137,17 @@ public class Caja_Servlet extends HttpServlet {
 
                     Vendedor vend = vendedor.find(UserV);
                     if (aux != null && vend != null) {
-                        /* ven = venta.buscarUltimaVenda();*/
+                        ven = venta.buscarUltimaVenda();
                         Producto p1 = producto.find(Integer.parseInt(idP));
                         double pre = aux.calP(p1.getPrecio(), unds);
                         p1.setCantidad(unds);
                         p1.setPrecio(pre);
+                        itemDeVenda.setVenta(ven);
                         itemDeVenda.setProducto(p1);
                         itemDeVenda.setCantidad(p1.getCantidad());
                         itemDeVenda.setValor(pre);
                         System.out.println(vend.getApellido());
+                        ven.setData(f);
                         ven.setVendedor(vend);
                         ven.setCaja(aux);
                         ven.setValor(ven.getValor() + itemDeVenda.getValor());
@@ -157,25 +156,33 @@ public class Caja_Servlet extends HttpServlet {
                         inven.add(p1);
                         System.out.println(ven.getItem_vents().size());
                         System.out.println("enviando");
+
                         JSONArray varJObjectLista = metGetLista(inven, varJsonArrayP);
                         escritor.print(varJObjectLista);
 
                     }
                 } else if (txtValop.equalsIgnoreCase("RE")) {
-                    ven.setData(f);
-                    System.out.println(ven.getValor());
+                  
+                    ven.getCaja().setDinero(ven.getValor());
+                    System.out.println(ven.getCaja().getDinero());
                     for (int x = 0; x < ven.getItem_vents().size(); x++) {
-                        System.out.println(ven.getItem_vents().get(x).getId_item());
+                        System.out.println("sadasggggggggggggg");
+                        System.out.println(ven.getId_venta());
+                        System.out.println(ven.getItem_vents().get(x).getProducto().getId_producto());
+                        System.out.println("------------------------------------");
+                        System.out.println();
+                        item.insert(ven.getItem_vents().get(x));
 
                     }
+                    System.out.println(ven.getData());
+                    System.out.println("+++++++++++++++++");
+                    venta.update(ven);
 
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Caja_Servlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
-
     }
 
     /**
@@ -188,6 +195,12 @@ public class Caja_Servlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public void registrar(Venta aux) {
+        ven = aux;
+    }
+
+    ;
+    
     public JSONArray metGetLista(List<Producto> in, JSONArray varJsonArrayP) {
 
         JSONObject varJsonObjectResultado = new JSONObject();

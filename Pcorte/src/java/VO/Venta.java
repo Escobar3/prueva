@@ -7,7 +7,7 @@ package VO;
 
 import java.io.Serializable;
 import java.util.List;
-import java.time.LocalDate;
+
 /**
  *
  * @author LUIS
@@ -37,10 +37,7 @@ public class Venta {
     public void setData(String data) {
         this.data = data;
     }
-
-   
-
-    
+  
     public Caja getCaja() {
         return caja;
     }

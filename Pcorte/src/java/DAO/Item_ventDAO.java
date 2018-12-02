@@ -123,6 +123,7 @@ public class Item_ventDAO implements IBaseDatos<Item_vent> {
 
             preparedStmt.setDouble(1, t.getValor());
             preparedStmt.setInt(2, t.getCantidad());
+            System.out.println(t.getVenta().getId_venta());
             preparedStmt.setInt(3, t.getVenta().getId_venta());
             preparedStmt.setInt(4, t.getProducto().getId_producto());
 
